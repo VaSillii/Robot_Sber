@@ -3,13 +3,13 @@ from selenium.webdriver.common.by import By
 
 
 class Config:
-    address = ''
+    address = 'Утиная 28'
     timeout = 10
 
     path_root_folder = os.path.abspath(os.curdir)
     path_chrome_driver = os.path.join(path_root_folder, 'support\\chromedriver.exe')
     path_list_product = os.path.join(path_root_folder, 'template\\data.txt')
-    path_list_price = os.path.join(path_root_folder, 'template\\price.txt')
+    path_list_price = os.path.join(path_root_folder, 'template\\price.json')
 
 
 class SberConfig:

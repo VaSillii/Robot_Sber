@@ -1,13 +1,16 @@
-import json
 import os
-from typing import List
+from typing import List, Any
 
-from pydantic import BaseModel
-
-from models.product import Product, ProductOrder, CustomBaseModel, ListProduct
+from models.product import ProductOrder, ListProduct
 
 
-def get_data(path: str, model: CustomBaseModel):
+def get_data(path: str, model: Any) -> list:
+    """
+    Получение данных из файла и сериализация из в модели
+    :param path: Путь до файла
+    :param model: Модель для сериализации
+    :return:
+    """
     data = []
     if not os.path.exists(path):
         print('Не валидный путь до файла')
@@ -20,15 +23,19 @@ def get_data(path: str, model: CustomBaseModel):
     return data
 
 
-def get_data_json(path: str):
-    data = []
+def get_data_json(path: str, model: Any) -> ListProduct:
+    """
+    Получение данных из json-файла
+    :param path: Путь до json файла
+    :param model: Модель для сериализации данных
+    :return:
+    """
     if not os.path.exists(path):
-        print('Не валидный путь до файла')
-        return data
-    return ListProduct.parse_file(path)
+        raise FileNotFoundError('Не найден путь до файла')
+    return model.parse_file(path)
 
 
-def get_product(path: str) -> List[Product]:
+def get_product(path: str) -> List[ProductOrder]:
     """
     Получение продуктов
     :param path: Путь до файла продуктов
@@ -37,5 +44,10 @@ def get_product(path: str) -> List[Product]:
     return get_data(path, ProductOrder)
 
 
-def get_price(path: str) -> List[ProductOrder]:
-    return get_data_json(path)
+def get_price(path: str) -> ListProduct:
+    """
+    Получение стоимости товар
+    :param path: Путь до файла с ценами
+    :return: Сериализованные данные словаря цен
+    """
+    return get_data_json(path, ListProduct)
